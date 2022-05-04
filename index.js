@@ -3,9 +3,6 @@
 
 hebraw code = iw
 
-
-@ilay_harari => 1418597188440141835
-
 @alqastalps => 1231191691178184705
 
 @gazanownews => 1393670201883889665
@@ -27,10 +24,7 @@ const http = require('http');
 const translatte = require('translatte');
 
 const config = {  
-    consumer_key: '04tA5YUNfIi73GG4wksEo1hjJ',  
-    consumer_secret: 'JSFRI0DGvIzzBXllcHY3DQu3bYWXCvJdnaIx2hopMccVgiCgr8',
-    access_token: '1515628251862949892-YkOeKzPJXUXv72qfuen36mSKLnmGlk',  
-    access_token_secret: 'H7ytmndLaNcTwXJV2NU1dfoUy3WgtFRVin6PFsz9XdiPY'
+    
 }
   
 const Twitter = new twit(config);
