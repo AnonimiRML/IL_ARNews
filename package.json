@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": ""
+    "start": "node index.js"
   },
   "keywords": [],
   "author": "",
@@ -12,7 +12,11 @@
   "dependencies": {
     "@vitalets/google-translate-api": "^8.0.0",
     "axios": "^0.26.1",
+    "fs": "0.0.1-security",
+    "google-translate": "^3.0.0",
     "http": "0.0.1-security",
+    "https": "^1.0.0",
+    "path": "^0.12.7",
     "translatte": "^3.0.1",
     "twit": "^2.2.11"
   }

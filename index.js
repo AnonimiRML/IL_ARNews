@@ -18,13 +18,20 @@ hebraw code = iw
 
 @alaqsavoice_brk => 389536829
 
+@alaqsavoice => 158353216
+
 
 */
 
 const twit = require('twit');
 const axios = require('axios');
-const http = require('http');
 const translatte = require('translatte');
+const fs = require('fs');
+const client = require('https');
+const http = require('http');
+
+const api = 'AIzaSyCLDP2Tw90gts1K1zNIehVtqOBOaOTI3HI'
+const googleTranslate = require('google-translate')(api);
 
 const config = {  
     consumer_key: '04tA5YUNfIi73GG4wksEo1hjJ',  
@@ -48,13 +55,16 @@ const isTruncated = object => object.truncated
 
 const existMedia = object => object.entities.media
 
-function tweetNow(tweetTxt) {  
+const url_tweet = (tweet) => `https://twitter.com/${tweet.user.screen_name}/status/${tweet.id_str}`
+
+function tweetNow(tweetTxt, urlTweet) {  
     
     tweet = {
         status: tweetTxt,
+        attachment_url: urlTweet
     }
 
-    
+    console.log(urlTweet)
     
     Twitter.post('statuses/update', tweet, function(err, data, response) {
         if (err) {
@@ -66,7 +76,6 @@ function tweetNow(tweetTxt) {
     });
 
 }
-
 
 const stream = Twitter.stream('statuses/filter', { follow: ['1418597188440141835', '1231191691178184705', '1393670201883889665','3484217843', '1371961068176744450', '1477377250911825924', '389536829'] }); 
 
@@ -85,27 +94,24 @@ stream.on('tweet', async function (tweet) {
 
         console.log(tweet)
 
+        const urlTweet = url_tweet(tweet)
+
         if (isTruncated(tweet)) {
 
             text = remove_url_from_str(tweet.extended_tweet.full_text)
 
-            translatte(text, {to: 'he'}).then(res => {
-            tweetNow(`${res.text} \n \n ${tweet.user.name}`);
-            }).catch(err => {
-                console.error(err);
-            });
-
+            googleTranslate.translate(text, 'he', (err, translation) => {
+                tweetNow(`${translation.translatedText} \n \n ${tweet.user.name}`, urlTweet);
+            });     
 
         } 
 
         else {
             text = remove_url_from_str(tweet.text)
 
-            translatte(text, {to: 'he'}).then(res => {
-            tweetNow(`${res.text} \n \n ${tweet.user.name}`);
-            }).catch(err => {
-                console.error(err);
-            });
+            googleTranslate.translate(text, 'he', (err, translation) => {
+                tweetNow(`${translation.translatedText} \n \n ${tweet.user.name}`, urlTweet);
+            }); 
 
         }
 
